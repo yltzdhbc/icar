@@ -1,0 +1,6 @@
+<launch>
+
+    <!-- 启动map_server保存地图到navigation/maps -->
+    <node pkg="map_server" type="map_saver" name="save_map" args="-f $(find icar_navigation)/maps/test_map"/>
+
+</launch>

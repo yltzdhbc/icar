@@ -1,0 +1,14 @@
+<launch>
+    <!-- 加载机器人模型描述参数 -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find icar_description)/urdf/icar.urdf.xacro" />
+
+    <!-- 运行robot_state_publisher节点，发布tf  -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="use_gui" value="false"/>
+        <param name="publish_frequency" type="double" value="50.0" />
+    </node>
+
+    <!-- 启动gmapping -->
+    <include file="$(find icar_slam)/launch/gmapping.launch"/>
+
+</launch>

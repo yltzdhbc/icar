@@ -1,0 +1,52 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="sensor_range" default="1.0"/>
+  <arg name="cmd_vel_topic" default="/cmd_vel" />
+  <arg name="odom_topic" default="odom" />
+
+  <!-- 运行joint_state_publisher节点，发布机器人的关节状态  -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+  <!-- 运行robot_state_publisher节点，发布tf  -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="50.0" />
+  </node>
+
+
+  <!-- 启动Gmapping -->
+  <include file="$(find icar_slam)/launch/gmapping.launch"/>
+
+  <!-- 启动AMCL -->
+  <include file="$(find icar_navigation)/launch/amcl.launch"/>
+
+  <!-- move_base -->
+  <!-- <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
+    <rosparam file="$(find icar_navigation)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find icar_navigation)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find icar_navigation)/param/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find icar_navigation)/param/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find icar_navigation)/param/move_base_params.yaml" command="load" />
+    <rosparam file="$(find icar_navigation)/param/dwa_local_planner_params.yaml" command="load" />
+    <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
+    <remap from="odom" to="$(arg odom_topic)"/>
+  </node> -->
+
+  <!-- 运行move_base节点 -->
+  <include file="$(find icar_navigation)/launch/move_base.launch" />
+
+
+  <!-- frontier_exploration -->
+  <node pkg="frontier_exploration" type="explore_client" name="explore_client" output="screen"/>
+  <node pkg="frontier_exploration" type="explore_server" name="explore_server" output="screen">
+    <param name="frequency" type="double" value="1.0"/>
+    <param name="goal_aliasing" type="double" value="$(arg sensor_range)"/>
+    <rosparam file="$(find icar_navigation)/config/costmap_common_params.yaml" command="load" ns="explore_costmap" />
+    <rosparam file="$(find icar_slam)/config/frontier_exploration.yaml" command="load" ns="explore_costmap" />
+  </node>
+
+  <!-- 启动rviz-->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find icar_slam)/rviz/frontier_exploration.rviz"/>
+
+
+</launch>

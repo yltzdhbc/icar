@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>icar</name>
+  <version>1.0.1</version>
+  <description>
+    ROS packages for the icar (meta package)
+  </description>
+  <license>Apache 2.0</license>
+  <license>BSD</license>
+  <author email="773673787@qq.com">Pyo</author>
+  <author>yu leitao</author>
+  <maintainer email="773673787@qq.com">Pyo</maintainer>
+  <url type="repository">https://github.com/yltzdhbc/icar</url>
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>icar_bringup</exec_depend>
+  <exec_depend>icar_description</exec_depend>
+
+  <exec_depend>icar_msgs</exec_depend>
+  <exec_depend>icar_navigation</exec_depend>
+  <exec_depend>icar_slam</exec_depend>
+  <exec_depend>icar_teleop</exec_depend>
+  <export>
+    <metapackage/>
+  </export>
+</package>

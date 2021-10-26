@@ -1,0 +1,7 @@
+<launch>
+
+  <include file="$(find icar_bringup)/launch/icar_core.launch"/>
+
+  <include file="$(find icar_teleop)/launch/letv_wpg201.launch"/>
+
+</launch>

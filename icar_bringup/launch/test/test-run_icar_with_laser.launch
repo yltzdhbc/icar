@@ -1,0 +1,39 @@
+<launch>
+
+  <!-- 启动Robot -->
+  <include file="$(find icar_bringup)/launch/icar_core.launch"/>
+
+  <!-- 加载机器人模型描述参数 -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find icar_description)/urdf/icar.urdf.xacro" />
+
+  <!-- 运行joint_state_publisher节点，发布机器人的关节状态  -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />  
+  
+  <!-- 运行robot_state_publisher节点，发布tf  -->
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="use_gui" value="true"/>
+    <param name="publish_frequency" type="double" value="50.0" />
+  </node>
+
+  <!-- 运行扩展卡尔曼滤波里程计估算 -->
+  <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
+      <remap from="robot_pose_ekf/odom_combined" to="odom_combined"/>
+      <param name="freq" value="10.0"/>
+      <param name="sensor_timeout" value="1.0"/>
+      <param name="publish_tf" value="true"/>
+      <param name="odom_used" value="true"/>
+      <param name="imu_used" value="false"/>
+      <param name="vo_used" value="false"/>
+      <param name="output_frame" value="odom"/>
+  </node>
+
+  <!-- 设置一个/base_link与/laser之间的静态坐标变换 -->
+  <node name="base_laser_broadcaster" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 1 /base_link /laser 50"/>
+
+  <!-- 运行激光雷达驱动 -->
+  <include file="$(find icar_bringup)/launch/icar_lidar.launch"/>
+
+  <!-- 在rviz中加载机器人模型-->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find icar_description)/rviz/real_robot.rviz"/>
+
+</launch>

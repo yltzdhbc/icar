@@ -1,0 +1,17 @@
+<launch>
+
+  <!-- 运行joint_state_publisher节点，发布机器人的关节状态  -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+  <!-- 运行robot_state_publisher节点，发布tf  -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="50.0" />
+  </node>
+
+  <!-- 启动cartographer_ros节点 -->
+  <include file="$(find icar_slam)/launch/cartographer.launch"/>
+
+  <!-- 启动rviz显示 -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find icar_slam)/rviz/slam_cartographer.rviz"/>
+
+</launch>

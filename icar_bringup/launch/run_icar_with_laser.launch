@@ -1,0 +1,9 @@
+<launch>
+
+  <!-- Rosserial连接机器人下位机 -->
+  <include file="$(find icar_bringup)/launch/icar_core.launch"/>
+
+  <!-- 运行激光雷达驱动 -->
+  <include file="$(find icar_bringup)/launch/icar_lidar_lds.launch"/>
+
+</launch>

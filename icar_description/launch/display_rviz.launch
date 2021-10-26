@@ -1,0 +1,15 @@
+
+<launch>
+
+	<arg name="gui" default="False" />
+	<arg name="model" default="$(find xacro)/xacro --inorder '$(find icar_description)/urdf/icar.urdf.xacro'" />
+
+	<param name="robot_description" command="$(arg model)" />
+
+	<param name="use_gui" value="$(arg gui)" />
+	<!-- 运行joint_state_publisher节点，发布机器人的关节状态  -->
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find icar_description)/rviz/view_rviz.rviz" />
+</launch>
+

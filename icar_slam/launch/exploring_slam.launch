@@ -1,0 +1,15 @@
+<launch>
+
+
+    <!-- 运行gmaping节点 -->
+    <!-- <include file="$(find icar_slam)/launch/gmapping.launch"/> -->
+
+    <include file="$(find icar_slam)/launch/cartographer.launch"/>
+
+    <!-- 运行move_base节点 -->
+    <include file="$(find icar_navigation)/launch/move_base.launch" />
+
+    <!-- 运行rviz -->
+    <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find icar_slam)/rviz/explore.rviz"/> -->
+
+</launch>

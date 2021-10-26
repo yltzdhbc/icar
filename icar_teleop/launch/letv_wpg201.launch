@@ -1,0 +1,23 @@
+<!--
+  乐视无线游戏手柄 酷尚版 驱动程序
+
+  按住 7号键 RB 使能手柄控制
+-->
+<launch>
+  <!--  平滑输入 将 cmd_vel_mux/input/teleop_raw 转换为 cmd_vel_mux/input/teleop -->
+  <include file="$(find icar_teleop)/launch/includes/velocity_smoother.launch.xml"/>
+
+  <!--  启动 teleop_joystick 节点 将joy消息转化为 /cmd_vel-->
+  <node pkg="icar_teleop" name="teleop_joystick" type="teleop_joystick" output="screen">
+    <param name="scale_angular" value="1.5"/>
+    <param name="scale_linear" value="0.5"/>
+    <param name="axis_deadman" value="7"/>
+    <param name="axis_linear" value="1"/>
+    <param name="axis_angular" value="0"/>
+    <remap from="teleop_joystick/cmd_vel" to="/cmd_vel"/>
+  </node>
+  
+  <!--  启动 joy 节点 驱动手柄 获取joy 数据-->
+  <node pkg="joy" type="joy_node" name="joystick"/>
+
+</launch>

@@ -1,0 +1,5 @@
+<launch>
+
+  <node pkg="icar_teleop" name="teleop_keyboard" type="teleop_keyboard.py" output="screen"/>
+
+</launch>

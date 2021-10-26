@@ -1,0 +1,21 @@
+# Define the goal
+# if type is 0,then spin. if type is 1, then move. 
+char type
+float64 start_x
+float64 start_y
+float64 start_theta
+float64 goal_x
+float64 goal_y
+float64 goal_theta
+---
+#define the result
+bool done
+float64 current_target_x
+float64 current_target_y
+float64 current_target_theta
+string error
+---
+#define the feedback
+float64 current_x
+float64 current_y
+float64 current_theta
